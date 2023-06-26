@@ -14,6 +14,7 @@
 # limitations under the License.
 import ast
 import json
+import re
 
 from langchain import PromptTemplate, LLMChain
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
@@ -146,6 +147,7 @@ class GetChatResponseOpenAILLM(FlowFileTransform):
         )
         pinecone_index = context.getProperty(self.pinecone_index_name.name).getValue()
         namespace = context.getProperty(self.pinecone_namespace.name).getValue()
+
         pinecone_vector_store = Pinecone.from_existing_index(index_name=pinecone_index, embedding=openai_embedding_service, namespace=namespace)
 
         temperature = context.getProperty(self.openai_llm_temperature.name).getValue()
@@ -196,13 +198,14 @@ class GetChatResponseOpenAILLM(FlowFileTransform):
 
         # Create the chain
         chat_llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=temperature, model=llm_model_name)
-        question_generator = LLMChain(llm=chat_llm, prompt=CONDENSE_QUESTION_PROMPT)
-        doc_chain = load_qa_with_sources_chain(chat_llm, chain_type="stuff", prompt=QA_PROMPT)
+        question_generator = LLMChain(llm=chat_llm, prompt=CONDENSE_QUESTION_PROMPT,  verbose=True)
+        doc_chain = load_qa_with_sources_chain(chat_llm, chain_type="stuff", verbose=False, prompt=QA_PROMPT)
 
         self.qa_chain = ConversationalRetrievalChain(
             retriever=pinecone_vector_store.as_retriever(),
             question_generator=question_generator,
-            combine_docs_chain=doc_chain
+            combine_docs_chain=doc_chain,
+            verbose=False
         )
 
 
@@ -218,7 +221,18 @@ class GetChatResponseOpenAILLM(FlowFileTransform):
         chat_history = context.getProperty(self.chat_history.name).evaluateAttributeExpressions(flowFile).getValue()
         escaped_chat_history = chat_history.replace('\n', '-')
 
-        array_of_tuples_chat_history = ast.literal_eval('[' + escaped_chat_history + ']')
+        self.logger.info("Escaped Chat History is: "  + escaped_chat_history)
+
+       # array_of_tuples_chat_history = ast.literal_eval('[' + escaped_chat_history + ']')
+
+        regex_pattern = r'\((.*?)\)'
+        array_of_tuples_chat_history = re.findall(regex_pattern, chat_history)
+
+        # Split each tuple string into individual values
+        array_of_tuples_chat_history = [tuple_str.split('", "') for tuple_str in array_of_tuples_chat_history]
+
+        # Create tuples by stripping the quotes and whitespace from each value
+        array_of_tuples_chat_history = [(value[1:-1], value2[1:-1]) for value, value2 in array_of_tuples_chat_history]
 
         self.logger.info("********* Inside transform of GetChatResponseOpenAILLM with question: "+question)
 

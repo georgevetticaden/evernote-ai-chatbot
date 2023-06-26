@@ -7,24 +7,13 @@ from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from langchain.vectorstores import Pinecone
-from langchain.embeddings import OpenAIEmbeddings
 import pinecone
-from langchain.llms import OpenAI
-from langchain.chains.question_answering import load_qa_chain
+
 
 from langchain.chat_models import ChatOpenAI
 from langchain import PromptTemplate, LLMChain
-from langchain.prompts.chat import (
-    ChatPromptTemplate,
-    SystemMessagePromptTemplate,
-    AIMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-)
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
+
+
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
@@ -262,7 +251,7 @@ def get_answer_from_open_Ai_Chat_3_with_params(open_api_key, opean_ai_model, emb
 
     # Create the different chains that will be wired up
     chat_llm = ChatOpenAI(openai_api_key=open_api_key,temperature=temperature, model=opean_ai_model)
-    question_generator = LLMChain(llm=chat_llm, prompt=CONDENSE_QUESTION_PROMPT, verbose=False)
+    question_generator = LLMChain(llm=chat_llm, prompt=CONDENSE_QUESTION_PROMPT, verbose=True)
     doc_chain = load_qa_with_sources_chain(chat_llm, chain_type="stuff", verbose=False, prompt=QA_PROMPT)
 
     # Use the Conversation chain to wire evertything together
@@ -412,67 +401,67 @@ answer = get_answer_from_open_Ai_Chat_3_with_params(
 
 chat_history.append((query2, answer))
 print(chat_history[2])
-
-answer = get_answer_from_open_Ai_Chat_3_with_params(
-    open_api_key=openai_api_key,
-    opean_ai_model= llm_model_name,
-    embeddings_model=embeddings_model_name,
-    temperature = 0,
-    chat_history= chat_history,
-    pinecone_api_key=pinecone_api_key,
-    environment=pinecone_env,
-    index_name=pinecone_index,
-    namespace=pinecone_namespace,
-    query = query3
-)
-
-chat_history.append((query3, answer))
-print(chat_history[3])
-
-answer = get_answer_from_open_Ai_Chat_3_with_params(
-    open_api_key=openai_api_key,
-    opean_ai_model= llm_model_name,
-    embeddings_model=embeddings_model_name,
-    temperature = 0,
-    chat_history= chat_history,
-    pinecone_api_key=pinecone_api_key,
-    environment=pinecone_env,
-    index_name=pinecone_index,
-    namespace=pinecone_namespace,
-    query = query4
-)
-
-chat_history.append((query4, answer))
-print(chat_history[4])
-
-answer = get_answer_from_open_Ai_Chat_3_with_params(
-    open_api_key=openai_api_key,
-    opean_ai_model= llm_model_name,
-    embeddings_model=embeddings_model_name,
-    temperature = 0,
-    chat_history= chat_history,
-    pinecone_api_key=pinecone_api_key,
-    environment=pinecone_env,
-    index_name=pinecone_index,
-    namespace=pinecone_namespace,
-    query = query5
-)
-
-chat_history.append((query5, answer))
-print(chat_history[5])
-
-answer = get_answer_from_open_Ai_Chat_3_with_params(
-    open_api_key=openai_api_key,
-    opean_ai_model= llm_model_name,
-    embeddings_model=embeddings_model_name,
-    temperature = 0,
-    chat_history= chat_history,
-    pinecone_api_key=pinecone_api_key,
-    environment=pinecone_env,
-    index_name=pinecone_index,
-    namespace=pinecone_namespace,
-    query = query6
-)
-
-chat_history.append((query6, answer))
-print(chat_history[6])
+#
+# answer = get_answer_from_open_Ai_Chat_3_with_params(
+#     open_api_key=openai_api_key,
+#     opean_ai_model= llm_model_name,
+#     embeddings_model=embeddings_model_name,
+#     temperature = 0,
+#     chat_history= chat_history,
+#     pinecone_api_key=pinecone_api_key,
+#     environment=pinecone_env,
+#     index_name=pinecone_index,
+#     namespace=pinecone_namespace,
+#     query = query3
+# )
+#
+# chat_history.append((query3, answer))
+# print(chat_history[3])
+#
+# answer = get_answer_from_open_Ai_Chat_3_with_params(
+#     open_api_key=openai_api_key,
+#     opean_ai_model= llm_model_name,
+#     embeddings_model=embeddings_model_name,
+#     temperature = 0,
+#     chat_history= chat_history,
+#     pinecone_api_key=pinecone_api_key,
+#     environment=pinecone_env,
+#     index_name=pinecone_index,
+#     namespace=pinecone_namespace,
+#     query = query4
+# )
+#
+# chat_history.append((query4, answer))
+# print(chat_history[4])
+#
+# answer = get_answer_from_open_Ai_Chat_3_with_params(
+#     open_api_key=openai_api_key,
+#     opean_ai_model= llm_model_name,
+#     embeddings_model=embeddings_model_name,
+#     temperature = 0,
+#     chat_history= chat_history,
+#     pinecone_api_key=pinecone_api_key,
+#     environment=pinecone_env,
+#     index_name=pinecone_index,
+#     namespace=pinecone_namespace,
+#     query = query5
+# )
+#
+# chat_history.append((query5, answer))
+# print(chat_history[5])
+#
+# answer = get_answer_from_open_Ai_Chat_3_with_params(
+#     open_api_key=openai_api_key,
+#     opean_ai_model= llm_model_name,
+#     embeddings_model=embeddings_model_name,
+#     temperature = 0,
+#     chat_history= chat_history,
+#     pinecone_api_key=pinecone_api_key,
+#     environment=pinecone_env,
+#     index_name=pinecone_index,
+#     namespace=pinecone_namespace,
+#     query = query6
+# )
+#
+# chat_history.append((query6, answer))
+# print(chat_history[6])

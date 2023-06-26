@@ -215,7 +215,8 @@ class ExportNotesFromEvernote(FlowFileTransform):
                     xml_string = minidom.parseString(ET.tostring(root)).toprettyxml(indent="  ")
 
                     # Specify the output file path
-                    file_name = f"Notebook[{notebook.name}]__Note[{note_title}]__Id[{note_guid[-4:]}].enex"
+                    file_name = f"Notebook__{notebook.name}__Note__{note_title}__Id__{note_guid[-4:]}.enex"
+
                     escaped_file_named= self.escape_filename(file_name)
                     output_path = os.path.join(output_directory, escaped_file_named)
 
