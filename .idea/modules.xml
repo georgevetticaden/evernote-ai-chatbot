@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../nifi2/Sample Processors/.idea/Sample Processors.iml" filepath="$PROJECT_DIR$/../../nifi2/Sample Processors/.idea/Sample Processors.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/llmsandbox.iml" filepath="$PROJECT_DIR$/.idea/llmsandbox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../nifi2/nifi-2.0.0-SNAPSHOT/python/.idea/python.iml" filepath="$PROJECT_DIR$/../../nifi2/nifi-2.0.0-SNAPSHOT/python/.idea/python.iml" />
+    </modules>
+  </component>
+</project>
