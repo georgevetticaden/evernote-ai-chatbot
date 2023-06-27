@@ -10,7 +10,7 @@ AFter you setup the NIFi flows as per the instructions in this project, you will
 
 [![Evernote Chabbot Conversation](https://img.youtube.com/vi/RRMlWvh4ha0/0.jpg)](https://www.youtube.com/watch?v=RRMlWvh4ha0)
 
-
+See the following Blog for more details: [Accelerating AI Data Pipelines: Building an Evernote Chatbot with Apache NiFi 2.0 and Generative AI]()
 ## Prerequisites  / Setup
 
 1. Install Python 3.9 to location $PYTHON_HOME 
@@ -27,11 +27,17 @@ AFter you setup the NIFi flows as per the instructions in this project, you will
          - e.g:  nifi.python.command=/opt/homebrew/Cellar/python@3.9/3.9.17/bin/python3.9
        - nifi.python.extensions.source.directory.dev=$EVERNOTE_CHAT_BOT/nifi-processor
          - e.g: If you clone this repo to folder evernote-ai-chat-bot, then it woudl be: nifi.python.extensions.source.directory.dev=/evernote-ai-chatbot/nifi-processor
+     - Modify the $NIFI_HOME/python/framework/py4j/java_gateway.py to add the following import statement. It needs to be added after the first import statement of 'from __future__ import unicode_literals, absolute_import'
+	     - from concurrent.futures import ThreadPoolExecutor
+     - Modify the $NIFI_HOME/python/api/nifiapi/properties.py to replace the line 'values = gateway.jvm.java.util.ArrayList()' with:
+	     - values = gateway.jvm.java.util.LinkedHashSet()
+         
 5. Start NiFi
    - Follow the instructions to start NIFi: [Starting NiFi](https://nifi.apache.org/docs/nifi-docs/html/getting-started.html#starting-nifi)
    - Configure credentials and access the NiFi UI by following the instructions:  [I started NIFi, Now what?](https://nifi.apache.org/docs/nifi-docs/html/getting-started.html#i-started-nifi-now-what)
 6. Signup for a free account on [Pinecone](https://www.pinecone.io/) and create an index through the console or the SDK. Save your Pinecone API key information. See the [Pinecone Quickstart Guide](https://docs.pinecone.io/docs/quickstart). You will need these to store and retrieve your vector embeddings of your Evernote notes. 
 7. Create an account on [OpenAI](https://platform.openai.com/) and create a secret API key. You will need this to to work with OpenAI embeddings model to vector embeddings and their LLM models.
+8. Create Evernote Developer token. See: [Developer Tokens](https://dev.evernote.com/doc/articles/dev_tokens.php)
 
 
 # Architecture
@@ -56,7 +62,30 @@ The above flow was implemented with NiFi using the following flow:
 Follow the below instructions to get this flow running:
 
 1. Import the NiFi flow Evernote_Vector_Embeddings_Ingestion_Pipeline onto the NiFi canvas
-* sdsd
-* sdf
-*  
-2. 
+* Add the Process Group Icon located in top menu bar to the canvas 
+* 	![Process Group](images/nifi-process-group.png)
+* Select the NiFi flow called Evernote_Vector_Embeddings_Ingestion_Pipeline located under nifi-processors and click add
+* 	![Add Process Group](images/nifi-add-process-group-embeddings-ingestion.png) 
+2. Configure the Parameter Context for the different config values required to run the flow
+* 	Select the Parameter Context from the hamburger menu
+	*  	xx
+*   Edit the parameter context name called VectorEmbeddingIngestion and configure the following parameters and leave the others to the default values
+	*   evernote_auth_key - This is the Evernote developer token to connect to the Evernote APIs
+	*   evernote_export_directory - A directory on your local file system where the notes will be exported in .enex format.
+	*   evernote_export_from_dtm - The start date that you want to export notes from. Only notes with the update value > this value will be exported
+	*   evernote_stack_filter - If you want to only export notebooks/notes from a specific Stack. If you want to export all, then set it to an empty string
+	*   pincone_evernote_namespace - Namespace within the pinecone index where the embeddings will be stored. Configure with a unique name.  If the configured namespace doesn't exist, Pinecone will automatically create one
+	*   pinecone_evernote_index_name - The index name you must create within the Pinecone UI / SDK.
+	*   vector_database_environment - The name of the environment for your pinecone cloud instance. This can be found in the API keys section within the Pinecone console
+	*   vector_database_service_api_key - The API key used to connect to your pinecone instance. This can be found in the API keys section within the Pinecone console
+	*   vector_embedding_model_service_api_key - The API key used to connect to OpenAI. This can be found in [OpenAI Platform Console](https://platform.openai.com/account/api-keys)  
+3. Start Controller Services and the Flow. The flow will pull all the notes in Evernote based on the date and filter configured and then will incrementally process new notes as they are created in Evernote. 
+	* Right-click on Canvas and Select Enable all controller services
+	* Right-click on the Canvas and Select 
+
+4. If the flow is processing successfully, you should immediately see vector embeddings in Pinecone and the number of vectors increasing.
+
+	
+# Troubleshooting
+* If you running these on the latest Apple M1/M2 chips that use ARM architecutre, then when running the embedding ingestion flow with the SplitEvernoteText processor: `lxml/etree.cpython-39-darwin.so' (mach-o file, but is an incompatible architecture (have (x86_64), need (arm64e)))` To solve this run build the lxml package your self with: `ARCHFLAGS="-arch arm64" pip3.9 install lxml --compile --no-cache-dir` and then copy the corresponding  lxml package into $NIFI_HOME/work/python/extensions/SplitEvernoteText/0.0.1-SNAPSHOT 
+
