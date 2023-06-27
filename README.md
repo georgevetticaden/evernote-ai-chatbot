@@ -8,12 +8,13 @@ This projects shows how to create a chat-like AI interface to Evernote  leveragi
 
 AFter you setup the NIFi flows as per the instructions in this project, you will be able have these types conversational experience your Evernote.
 
-![Evernote Chabbot Conversation](images/evernote-chatbot-ui-conversation-sample.png)
+[![Evernote Chabbot Conversation](https://img.youtube.com/vi/RRMlWvh4ha0/0.jpg)](https://www.youtube.com/watch?v=RRMlWvh4ha0)
 
 
 ## Pre-requisite  / Setup
 
-1. Build Apache NiFi 2.0 Snapshot release or download it from <<XXX>> into this location $NIFI_HOME
+1. Install Python 3.9. You will need this to run Python processors in NiFi as well as the stream-lit chat web app
+2. Build Apache NiFi 2.0 Snapshot release or download it from [here](https://drive.google.com/file/d/1xAuao9rV8F_CQBLqWLWp7P12iZpuuUEP/view?usp=drive_link) into this location $NIFI_HOME
    - Confiugure NiFi
      - modify the $NIFI_HOME/confi/nifi.poperties for the following properties
        - nifi.python.command=<<Set to location of your python 3.8 install>>
@@ -22,7 +23,6 @@ AFter you setup the NIFi flows as per the instructions in this project, you will
          - e.g: If you clone this repo to folder evernote-ai-chat-bot, then ti woudl be: nifi.python.extensions.source.directory.dev=/evernote-ai-chatbot/nifi-processor
 2. Signup for a free account on [Pinecone](https://www.pinecone.io/) and create an index through the console or the SDK. Save your Pinecone API key information. See the [Pinecone Quickstart Guide](https://docs.pinecone.io/docs/quickstart). You will need these to store and retrieve your vector embeddings of your Evernote notes. 
 3. Create an account on [OpenAI](https://platform.openai.com/) and create a secret API key. You will need this to to work with OpenAI embeddings model to vector embeddings and their LLM models.
-4. Install Python 3.9. You will need this to run Python processors in NiFi as well as the stream-lit chat web app 
 5. Install the following python packages: 
    - s
 6. sdsd

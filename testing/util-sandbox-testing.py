@@ -66,16 +66,32 @@ chat_history ='''("What can you help with?", "I\'m a helpful assistant for Georg
 # array_of_tuples_chat_history = ast.literal_eval('[' + escaped_chat_history + ']')
 
 
-# Use regex to extract tuples from the chat_history string
-regex_pattern = r'\((.*?)\)'
-array_of_tuples_chat_history = re.findall(regex_pattern, chat_history)
+# # Use regex to extract tuples from the chat_history string
+# regex_pattern = r'\((.*?)\)'
+# array_of_tuples_chat_history = re.findall(regex_pattern, chat_history)
+#
+# # Split each tuple string into individual values
+# array_of_tuples_chat_history = [tuple_str.split('", "') for tuple_str in array_of_tuples_chat_history]
+#
+# # Create tuples by stripping the quotes and whitespace from each value
+# array_of_tuples_chat_history = [(value[1:-1], value2[1:-1]) for value, value2 in array_of_tuples_chat_history]
+#
+# # Print the array of tuples
+# for tuple_item in array_of_tuples_chat_history:
+#     print(tuple_item)
 
-# Split each tuple string into individual values
-array_of_tuples_chat_history = [tuple_str.split('", "') for tuple_str in array_of_tuples_chat_history]
+source = '''/Users/aju/Dev-Testing/evernotes//Notebook__Family_ Aju_ Health__Note__Appointment with Dr. Patel on 6_20 for Right Elbow Pain__Id__2372.enex, /Users/aju/Dev-Testing/evernotes//Notebook__Family_ Aju_ Health__Note__Right Elbow Pain - 01-11-23__Id__c8ff.enex'''
+pattern = r"Notebook__(.*?)__Note__(.*?)__Id__(.*?)\.enex"
+matches = re.findall(pattern, source)
 
-# Create tuples by stripping the quotes and whitespace from each value
-array_of_tuples_chat_history = [(value[1:-1], value2[1:-1]) for value, value2 in array_of_tuples_chat_history]
+# Create a list of formatted strings
+formatted_strings = []
+for match in matches:
+    notebook_value = match[0]
+    note_value = match[1]
+    formatted_string = f"Notebook: {notebook_value}, Title: {note_value}"
+    formatted_strings.append(formatted_string)
 
-# Print the array of tuples
-for tuple_item in array_of_tuples_chat_history:
-    print(tuple_item)
+# Print the formatted strings
+for string in formatted_strings:
+    print(string)

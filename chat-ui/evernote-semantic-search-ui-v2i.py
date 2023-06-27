@@ -6,6 +6,8 @@ st.set_page_config(page_title="Evernote Semenatic Search", page_icon=":robot_fac
 st.markdown("<h1 style='text-align: center;'>Evernote AI Chatbot Powered by Apache NiFi using OpenAI, Pinecone & Langchain</h1>", unsafe_allow_html=True)
 
 import requests
+import re
+
 
 API_ENDPOINT = "http://127.0.0.1:9898/evernotechatbot"
 
@@ -30,13 +32,9 @@ def generate_response(query, chat_history):
 
     # Convert the chat_history tuple array into a single string\
     chat_history_string = None
-    print(chat_history)
     if chat_history:
-        # chat_history_string = ', '.join([f"('{x}', '{y}')" for x, y in chat_history])
-        #chat_history_string = ' '.join([f'({item[0]}, {item[1]})' for item in chat_history])
         chat_history_string = ' '.join([f'("{item[0]}", "{item[1]}")' for item in chat_history])
 
-        print("Chat hisotry as string is: " + chat_history_string)
 
 
     params = {
@@ -53,7 +51,23 @@ def parse_response(response):
     if 'SOURCES' in response:
 
         answer, source = response.split('SOURCES', 1)
-        return {"answer": answer, "source": source}
+        print("Answer is: " + answer)
+        print("Source is: " + source)
+
+        pattern = r"Notebook__(.*?)__Note__(.*?)__Id__(.*?)\.enex"
+        matches = re.findall(pattern, source)
+
+        # Create a list of formatted strings
+        formatted_sources = []
+        for match in matches:
+            notebook_value = match[0]
+            note_value = match[1]
+            formatted_string = f"Note: {note_value} (Notebook: {notebook_value}), "
+            formatted_sources.append(formatted_string)
+
+        formatted_sources_string = ', '.join(formatted_sources)
+
+        return {"answer": answer, "source":source , "sources_parsed": formatted_sources_string}
     else:
         return {"answer" : response, "source" : ''}
 
@@ -87,8 +101,9 @@ if st.session_state['chat_history']:
             source = answer_and_source['source']
             # if  source is not None and len(source) > 0 and source != ':' and question != 'What can you help with?' :
             if source is not None and len(source) > 0 and source != ':' :
-                st.write(
-                    f"Evernote Source: {answer_and_source['source']}")
+                st.markdown("<b>Evernote Source:</b> " + answer_and_source['sources_parsed'], unsafe_allow_html=True)
+
+
 
 
 
