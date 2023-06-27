@@ -29,7 +29,7 @@ AFter you setup the NIFi flows as per the instructions in this project, you will
          - e.g: If you clone this repo to folder evernote-ai-chat-bot, then it woudl be: nifi.python.extensions.source.directory.dev=/evernote-ai-chatbot/nifi-processor
 5. Start NiFi
    - Follow the instructions to start NIFi: [Starting NiFi](https://nifi.apache.org/docs/nifi-docs/html/getting-started.html#starting-nifi)
-   - Configure credentials and access the NiFi UI by following the instructions:  [I started NIFi, Now what?](https://nifi.apache.org/docs/nifi-docs/html/getting-started.html#starting-nifi)
+   - Configure credentials and access the NiFi UI by following the instructions:  [I started NIFi, Now what?](https://nifi.apache.org/docs/nifi-docs/html/getting-started.html#i-started-nifi-now-what)
 6. Signup for a free account on [Pinecone](https://www.pinecone.io/) and create an index through the console or the SDK. Save your Pinecone API key information. See the [Pinecone Quickstart Guide](https://docs.pinecone.io/docs/quickstart). You will need these to store and retrieve your vector embeddings of your Evernote notes. 
 7. Create an account on [OpenAI](https://platform.openai.com/) and create a secret API key. You will need this to to work with OpenAI embeddings model to vector embeddings and their LLM models.
 
@@ -54,5 +54,9 @@ The above flow was implemented with NiFi using the following flow:
 ![NiFi Flow for Vector Embeddings Ingestion ](images/nifi-flow-embeddings-ingestion.png)
 
 Follow the below instructions to get this flow running:
-1. sd
+
+1. Import the NiFi flow Evernote_Vector_Embeddings_Ingestion_Pipeline onto the NiFi canvas
+* sdsd
+* sdf
+*  
 2. 
