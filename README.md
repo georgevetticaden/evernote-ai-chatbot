@@ -10,7 +10,10 @@ Creating a chat-like interface enhances interactions with Evernote, providing an
 
 [![Evernote Chabbot Conversation](https://img.youtube.com/vi/RRMlWvh4ha0/0.jpg)](https://www.youtube.com/watch?v=RRMlWvh4ha0)
 
-See the following Blog for more details: [Accelerating AI Data Pipelines: Building an Evernote Chatbot with Apache NiFi 2.0 and Generative AI]()
+For more details see the following resources:
+* [Accelerating AI Data Pipelines: Building an Evernote Chatbot with Apache NiFi 2.0 and Generative AI]() 
+* [NiFi Python Developer’s Guide
+](https://github.com/apache/nifi/blob/main/nifi-docs/src/main/asciidoc/python-developer-guide.adoc)
 
 ## Prerequisites  / Setup
 
