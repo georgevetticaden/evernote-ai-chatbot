@@ -6,9 +6,9 @@ Evernote, a leading and powerful note-taking tool, can be a labyrinth of text, d
 
 This project shows how to create a chat-like AI interface for Evernote leveraging the highly anticipated Apache NiFi 2.0 release and its seamless Python integration and various generative AI tools. It focuses on rapidly creating AI data pipelines with Apache NiFi, seamlessly integrating various AI ecosystem technologies, such as OpenAI, Pinecone, and LangChain. 
 
-Creating a chat-like interface enhances interactions with Evernote, providing an intuitive and conversational experience. After you set up the NIFi flows as per the instructions in this project, you can have these types of conversational experiences with your Evernote.
+Creating a chat-like interface enhances interactions with Evernote, providing an intuitive and conversational experience. After you set up the NIFi flows as per the instructions in this project, you can have these types of conversational experiences with your Evernote. Watch the following video for a full walkthough on how to build this Evernote chatbot.
 
-[![Evernote Chabbot Conversation](https://img.youtube.com/vi/RRMlWvh4ha0/0.jpg)](https://www.youtube.com/watch?v=RRMlWvh4ha0)
+[![Evernote Chabbot Conversation](https://img.youtube.com/vi/VFA0P9Cv8ZU/0.jpg)](https://www.youtube.com/watch?v=VFA0P9Cv8ZU)
 
 For more details see the following resources:
 * [Accelerating AI Data Pipelines: Building an Evernote Chatbot with Apache NiFi 2.0 and Generative AI]() 
@@ -68,7 +68,7 @@ Follow the below instructions to get this flow running:
 * 	![Add Process Group](images/nifi-add-process-group-embeddings-ingestion.png) 
 2. Configure the Parameter Context for the different config values required to run the flow
 * 	Select the Parameter Context from the hamburger menu
-	*  	xx
+*	![Add Process Group](images/parameter-contecxt-menu.png) 
 *   Edit the parameter context name called VectorEmbeddingIngestion and configure the following parameters and leave the others to the default values
 	*   evernote_auth_key - This is the Evernote developer token to connect to the Evernote APIs
 	*   evernote_export_directory - A directory on your local file system where the notes will be exported in .enex format.
